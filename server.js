@@ -19,6 +19,9 @@ io.on("connection", socket => {
   socket.on('fromMessenger', function(msg){
     io.emit('toFrontEnd', msg);
   });
+  socket.on('toMessenger', function(inputMsg){
+    callSendAPI("3064114630319157",inputMsg)
+  });
  // socket.emit('fromMesse' , received_message.text)
   // if (interval) {
   //   clearInterval(interval);
@@ -99,7 +102,6 @@ function handleMessage(sender_psid, received_message) {
   
   // Check if the message contains text
   if (received_message.text) {    
-    console.log("ssss")
     io.emit("fromMessenger",received_message.text)
     // Create the payload for a basic text message
     response = {
@@ -141,16 +143,16 @@ function callSendAPI(sender_psid, response) {
   }); 
 }
 
-const getApiAndEmit = async socket => {
-    try {
-      console.log("fgfgf")
-      const res = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos/1"
-      ); // Getting the data from DarkSky
-      socket.emit("FromAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
-     // socket.emit("chat", "dsdsdds");
-    } catch (error) {
-      console.error(`Error: ${error.code}`);
-    }
-  };
+// const getApiAndEmit = async socket => {
+//     try {
+//       console.log("fgfgf")
+//       const res = await axios.get(
+//         "https://jsonplaceholder.typicode.com/todos/1"
+//       ); // Getting the data from DarkSky
+//       socket.emit("FromAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+//      // socket.emit("chat", "dsdsdds");
+//     } catch (error) {
+//       console.error(`Error: ${error.code}`);
+//     }
+//   };
   server.listen(port, () => console.log(`Listening on port ${port}`));
