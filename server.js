@@ -20,7 +20,13 @@ io.on("connection", socket => {
     io.emit('toFrontEnd', msg);
   });
   socket.on('toMessenger', function(inputMsg){
-    callSendAPI("3064114630319157",inputMsg)
+    let response;
+    response = {
+      "text": inputMsg
+    }
+    console.log("received", inputMsg)
+  //  handleMessage("3064114630319157", inputMsg)
+    callSendAPI("3064114630319157",response)
   });
  // socket.emit('fromMesse' , received_message.text)
   // if (interval) {
@@ -123,7 +129,7 @@ function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     "recipient": {
-      "id": sender_psid
+      "id": "3064114630319157"
     },
     "message": response
   }
