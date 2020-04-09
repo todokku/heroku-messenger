@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const request = require('request');
+const socketIo = require("socket.io");
 
 // Creates the endpoint for our webhook 
 router.post('/webhook', (req, res) => {  
@@ -39,42 +40,16 @@ router.post('/webhook', (req, res) => {
     }
   
   });
-  // Adds support for GET requests to our webhook
-router.get('/webhook', (req, res) => {
-
-    // Your verify token. Should be a random string.
-    let VERIFY_TOKEN = "123456"
-      
-    // Parse the query params
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
-      
-    // Checks if a token and mode is in the query string of the request
-    if (mode && token) {
-    
-      // Checks the mode and token sent is correct
-      if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-        
-        // Responds with the challenge token from the request
-        console.log('WEBHOOK_VERIFIED');
-        res.status(200).send(challenge);
-      
-      } else {
-        // Responds with '403 Forbidden' if verify tokens do not match
-        res.sendStatus(403);      
-      }
-    }
-  });
 
   // Handles messages events
   function handleMessage(sender_psid, received_message) {
 
     let response;
-  
+    
     // Check if the message contains text
     if (received_message.text) {    
-  
+      console.log("ssss")
+      socketIo().emit('chat',received_message.text)
       // Create the payload for a basic text message
       response = {
         "text": `You sent the message: "${received_message.text}". Now send me an image!`
