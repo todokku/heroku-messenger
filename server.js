@@ -14,6 +14,20 @@ const io = socketIo(server); // < Interesting!
 
 let interval;
 
+io.on("connection", socket => {
+  console.log("New client connected");
+  socket.on('fromMessenger', function(msg){
+    io.emit('toFrontEnd', msg);
+  });
+ // socket.emit('fromMesse' , received_message.text)
+  // if (interval) {
+  //   clearInterval(interval);
+  // }
+  // interval = setInterval(() => getApiAndEmit(socket), 10000);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
   // Your verify token. Should be a random string.
@@ -86,17 +100,7 @@ function handleMessage(sender_psid, received_message) {
   // Check if the message contains text
   if (received_message.text) {    
     console.log("ssss")
-    io.on("connection", socket => {
-      console.log("New client connected");
-      socket.emit('chat' , received_message.text)
-      // if (interval) {
-      //   clearInterval(interval);
-      // }
-      // interval = setInterval(() => getApiAndEmit(socket), 10000);
-      // socket.on("disconnect", () => {
-      //   console.log("Client disconnected");
-      // });
-    });
+    io.emit("fromMessenger",received_message.text)
     // Create the payload for a basic text message
     response = {
       "text": `You sent the message: "${received_message.text}". Now send me an image!`
