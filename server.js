@@ -135,7 +135,7 @@ const callSendAPI = async (sender_psid, content) => {
       },
       "message": content
     }
-    const response =await fetch('https://graph.facebook.com/v2.6/me/messages?acces_token=EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD', {
+    const response =await fetch('https://graph.facebook.com/v6.0/me/messages?access_token=EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD', {
         method: 'post',
         body:    JSON.stringify(request_body),
         headers: {"Content-Type": "application/json"},
