@@ -113,9 +113,12 @@ function handleMessage(sender_psid, received_message) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
-  var msg = payload
+  response = {
+    "text": payload.message
+  }
+ // var msg = payload
   console.log("payload" , payload)
-  callSendAPI("3064114630319157",msg); 
+  callSendAPI("3064114630319157",response); 
  // if(payload.type)
 }
 
