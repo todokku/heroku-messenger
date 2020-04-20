@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 //const axios = require("axios");
+const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 const request = require('request');
 const port = process.env.PORT || 4001;
@@ -126,29 +127,53 @@ function handlePostback(sender_psid, received_postback) {
  // if(payload.type)
 }
 
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-  // Construct the message body
-  let request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "message": response
-  }
-
-  // Send the HTTP request to the Messenger Platform
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": "EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD" },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
-    } else {
-      console.error("Unable to send message:" + err);
+const callSendAPI = async (sender_psid, content) => {
+  try {
+    let request_body = {
+      "recipient": {
+        "id": sender_psid
+      },
+      "message": content
     }
-  }); 
-}
+    const response =await fetch('https://graph.facebook.com/v2.6/me/messages', {
+        method: 'post',
+        body:    JSON.stringify(request_body),
+        headers: { "Content-Type": "application/json",
+        "access_token": "EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD"
+       },
+    })
+   // .then(res => res.json())
+   // .then(json => console.log(json));
+    // const response = await fetch(url);
+     const json = await response.json();
+     console.log(json);
+  } catch (error) {
+    console.log(error);
+  }
+};
+// Sends response messages via the Send API
+// function callSendAPI(sender_psid, response) {
+//   // Construct the message body
+//   let request_body = {
+//     "recipient": {
+//       "id": sender_psid
+//     },
+//     "message": response
+//   }
+
+//   // Send the HTTP request to the Messenger Platform
+//   request({
+//     "uri": "https://graph.facebook.com/v2.6/me/messages",
+//     "qs": { "access_token": "EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD" },
+//     "method": "POST",
+//     "json": request_body
+//   }, (err, res, body) => {
+//     if (!err) {
+//       console.log('message sent!')
+//     } else {
+//       console.error("Unable to send message:" + err);
+//     }
+//   }); 
+// }
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
