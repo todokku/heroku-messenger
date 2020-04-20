@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const axios = require("axios");
+//const axios = require("axios");
 const bodyParser = require('body-parser');
 const request = require('request');
 const port = process.env.PORT || 4001;
@@ -10,9 +10,7 @@ const app = express().use(bodyParser.json());
 
 const server = http.createServer(app);
 
-const io = socketIo(server); // < Interesting!
-
-let interval;
+const io = socketIo(server);
 
 io.on("connection", socket => {
   console.log("New client connected");
@@ -24,15 +22,8 @@ io.on("connection", socket => {
     response = {
       "text": inputMsg
     }
-    console.log("received", inputMsg)
-  //  handleMessage("3064114630319157", inputMsg)
     callSendAPI("3064114630319157",response)
   });
- // socket.emit('fromMesse' , received_message.text)
-  // if (interval) {
-  //   clearInterval(interval);
-  // }
-  // interval = setInterval(() => getApiAndEmit(socket), 10000);
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
@@ -111,7 +102,7 @@ function handleMessage(sender_psid, received_message) {
     io.emit("fromMessenger",received_message.text)
     // Create the payload for a basic text message
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
+      "text": ""
     }
   }  
   
@@ -121,7 +112,11 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
-
+  let payload = received_postback.payload ;
+  var msg = payload
+  console.log("payload" , payload)
+  sendMessage("3064114630319157",msg); 
+ // if(payload.type)
 }
 
 // Sends response messages via the Send API
@@ -129,7 +124,7 @@ function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     "recipient": {
-      "id": "3064114630319157"
+      "id": sender_psid
     },
     "message": response
   }
@@ -149,16 +144,4 @@ function callSendAPI(sender_psid, response) {
   }); 
 }
 
-// const getApiAndEmit = async socket => {
-//     try {
-//       console.log("fgfgf")
-//       const res = await axios.get(
-//         "https://jsonplaceholder.typicode.com/todos/1"
-//       ); // Getting the data from DarkSky
-//       socket.emit("FromAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
-//      // socket.emit("chat", "dsdsdds");
-//     } catch (error) {
-//       console.error(`Error: ${error.code}`);
-//     }
-//   };
-  server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
