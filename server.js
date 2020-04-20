@@ -114,16 +114,51 @@ function handleMessage(sender_psid, received_message) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
-  let response = {
-        "text":"Hello {{user_first_name}}!"
+  let request_body = {
+    "recipient": {
+      "id": "3064114630319157"
+    },
+    "message": {
+      "text":"Hello {{user_first_name}}!"
+    }
   }
-  let response2 = {
-    "text" : "Tell me what you want"
+  let request_body1 = {
+    "recipient": {
+      "id": "3064114630319157"
+    },
+    "message": {
+      "text":"Thanks for contacting us .Please choose one option"
+    }
+  }
+  
+  let request_body2 = {
+    "recipient":{
+      "id":"3064114630319157"
+    },
+    "messaging_type": "RESPONSE",
+    "message":{
+      "text": "Pick a color:",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Red",
+          "payload":"POSTBCK_RED",
+          "image_url":"http://example.com/img/red.png"
+        },{
+          "content_type":"text",
+          "title":"Green",
+          "payload":"POSTBACK_GREEN",
+          "image_url":"http://example.com/img/green.png"
+        }
+      ]
+    }
   }
  // var msg = payload
   console.log("payload" , payload)
-  callSendAPI("3064114630319157",response).then(() =>{
-    callSendAPI("3064114630319157",response2);
+  callSendAPI(request_body).then(() =>{
+    callSendAPI(request_body1).then(() => {
+      callSendAPI(request_body2)
+    });
   }).catch((error) => {
     console.log(error)
   }); 
@@ -131,17 +166,12 @@ function handlePostback(sender_psid, received_postback) {
  // if(payload.type)
 }
 
-const callSendAPI = async (sender_psid, content) => {
+const callSendAPI = async (content) => {
   try {
-    let request_body = {
-      "recipient": {
-        "id": sender_psid
-      },
-      "message": content
-    }
+    
     const response =await fetch('https://graph.facebook.com/v6.0/me/messages?access_token=EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD', {
         method: 'post',
-        body:    JSON.stringify(request_body),
+        body:    JSON.stringify(content),
         headers: {"Content-Type": "application/json"},
     })
    // .then(res => res.json())
