@@ -122,8 +122,12 @@ function handlePostback(sender_psid, received_postback) {
   }
  // var msg = payload
   console.log("payload" , payload)
-  callSendAPI("3064114630319157",response); 
-  callSendAPI("3064114630319157",response2);
+  callSendAPI("3064114630319157",response).then(() =>{
+    callSendAPI("3064114630319157",response2);
+  }).catch((error) => {
+    console.log(error)
+  }); 
+  
  // if(payload.type)
 }
 
