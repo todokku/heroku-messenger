@@ -114,7 +114,16 @@ function handleMessage(sender_psid, received_message) {
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
   let response = {
-    "text": "hiiii"
+    "greeting":[
+      {
+        "locale":"default",
+        "text":"Hello {{user_first_name}}!"
+      },
+      {
+        "locale":"en_US",
+        "text":"Hello {{user_first_name}}."
+      }
+    ]
   }
  // var msg = payload
   console.log("payload" , payload)
