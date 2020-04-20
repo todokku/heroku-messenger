@@ -115,7 +115,7 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
   var msg = payload
   console.log("payload" , payload)
-  sendMessage("3064114630319157",msg); 
+  callSendAPI("3064114630319157",msg); 
  // if(payload.type)
 }
 
