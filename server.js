@@ -113,11 +113,15 @@ function handleMessage(sender_psid, received_message) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
-  let response = [
-    {"text":"Hello {{user_first_name}}!"},
-    {"text":"What is your query"},
-    {"text":"heyy"}
-  ]
+  let response = {
+    "text": "ohoo"
+  }
+  // let response = [
+  //   {"text":"Hello {{user_first_name}}!"},
+  //   {"text":"What is your query"},
+  //   {"text":"heyy"}
+  // ]
+
 
  // var msg = payload
   console.log("payload" , payload)
@@ -128,12 +132,26 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
-  let request_body = {
+  let request_body = [
+    {
     "recipient": {
       "id": sender_psid
     },
-    "message": response
+    "message": "Hii"
+  },
+  {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": "Heelo"
+  },
+  {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": "what"
   }
+]
 
   // Send the HTTP request to the Messenger Platform
   request({
