@@ -114,20 +114,16 @@ function handleMessage(sender_psid, received_message) {
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
   let response = {
-    "greeting":[
-      {
-        "locale":"default",
         "text":"Hello {{user_first_name}}!"
-      },
-      {
-        "locale":"en_US",
-        "text":"Hello {{user_first_name}}."
-      }
-    ]
+  }
+  let response2 = {
+    "text" : "Tell me what you want"
   }
  // var msg = payload
   console.log("payload" , payload)
-  callSendAPI("3064114630319157",response); 
+  callSendAPI("3064114630319157",response).then(() =>{
+    return callSendAPI(response2)
+  }); 
  // if(payload.type)
 }
 
