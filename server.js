@@ -113,8 +113,8 @@ function handleMessage(sender_psid, received_message) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
-  response = {
-    "text": payload.message
+  let response = {
+    "text": "hiiii"
   }
  // var msg = payload
   console.log("payload" , payload)
