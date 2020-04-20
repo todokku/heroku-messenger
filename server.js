@@ -135,15 +135,10 @@ const callSendAPI = async (sender_psid, content) => {
       },
       "message": content
     }
-    const meta = {
-      "Content-Type": "application/json",
-      "access_token": "EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD"
-    }
-    const headers = new fetch.Headers(meta);
-    const response =await fetch('https://graph.facebook.com/v2.6/me/messages', {
+    const response =await fetch('https://graph.facebook.com/v2.6/me/messages?acces_token=EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD', {
         method: 'post',
         body:    JSON.stringify(request_body),
-        headers: headers,
+        headers: {"Content-Type": "application/json"},
     })
    // .then(res => res.json())
    // .then(json => console.log(json));
