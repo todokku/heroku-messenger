@@ -113,17 +113,15 @@ function handleMessage(sender_psid, received_message) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload ;
-  let response = {
-        "text":"Hello {{user_first_name}}!"
-  }
-  let response2 = {
-    "text" : "Tell me what you want"
-  }
+  let response = [
+    {"text":"Hello {{user_first_name}}!"},
+    {"text":"What is your query"},
+    {"text":"heyy"}
+  ]
+
  // var msg = payload
   console.log("payload" , payload)
-  callSendAPI("3064114630319157",response).then(() =>{
-    return callSendAPI(response2)
-  }); 
+  callSendAPI("3064114630319157",response)
  // if(payload.type)
 }
 
@@ -139,7 +137,7 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "uri": "https://graph.facebook.com/v2.6/me/messages?batch=",
     "qs": { "access_token": "EAADhAkZCgj7QBAFwncIYuPjvAixZBQXvTKVXMQwWrqeJZA5vF21OYXWn3Cg438fXygJLZAWMaeHRUvDUTBmU3BgmPzniNKkJPKoZB2VFT5g0tllDvDppqUFsOvMsEsCmqsf3rnDZBxJrInuPqnZAJMzSV48tEUsEcZCZCeyZCwhgf7vtVn2C2ib1fKYE1EwPpiJr0ZD" },
     "method": "POST",
     "json": request_body
