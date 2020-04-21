@@ -97,7 +97,7 @@ app.post('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
 
   let response;
-  
+  console.log("RECEVIED MSG " , received_message)
   // Check if the message contains text
   if (received_message.text) {    
     io.emit("fromMessenger",received_message.text)
