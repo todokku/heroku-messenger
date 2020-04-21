@@ -101,7 +101,7 @@ function handleMessage(sender_psid, received_message) {
   // Check if the message contains text
   if (received_message.text) {    
     io.emit("fromMessenger",received_message.text)
-    var response = {
+     response = {
       "recipient": {
         "id": "3064114630319157"
       },
