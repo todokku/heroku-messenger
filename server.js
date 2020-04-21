@@ -103,7 +103,7 @@ function handleMessage(sender_psid, received_message) {
     io.emit("fromMessenger",received_message.text)
     // Create the payload for a basic text message
     response = {
-      "text": ""
+      "text": `You sent the message: "${received_message.text}". Now send me an image!`
     }
   }  
   
@@ -119,7 +119,7 @@ function handlePostback(sender_psid, received_postback) {
       "id": "3064114630319157"
     },
     "message": {
-      "text":"Hello {{user_first_name}}!"
+      "text":"Hi! I am Snappy, a friendly bot, and I am here to assist you.!"
     }
   }
   let request_body1 = {
@@ -127,38 +127,36 @@ function handlePostback(sender_psid, received_postback) {
       "id": "3064114630319157"
     },
     "message": {
-      "text":"Thanks for contacting us .Please choose one option"
+      "text":"Can I get your name please?"
     }
   }
   
-  let request_body2 = {
-    "recipient":{
-      "id":"3064114630319157"
-    },
-    "messaging_type": "RESPONSE",
-    "message":{
-      "text": "Pick a color:",
-      "quick_replies":[
-        {
-          "content_type":"text",
-          "title":"Red",
-          "payload":"POSTBCK_RED",
-          "image_url":"http://example.com/img/red.png"
-        },{
-          "content_type":"text",
-          "title":"Green",
-          "payload":"POSTBACK_GREEN",
-          "image_url":"http://example.com/img/green.png"
-        }
-      ]
-    }
-  }
+  // let request_body2 = {
+  //   "recipient":{
+  //     "id":"3064114630319157"
+  //   },
+  //   "messaging_type": "RESPONSE",
+  //   "message":{
+  //     "text": "Pick a color:",
+  //     "quick_replies":[
+  //       {
+  //         "content_type":"text",
+  //         "title":"Red",
+  //         "payload":"POSTBCK_RED",
+  //         "image_url":"http://example.com/img/red.png"
+  //       },{
+  //         "content_type":"text",
+  //         "title":"Green",
+  //         "payload":"POSTBACK_GREEN",
+  //         "image_url":"http://example.com/img/green.png"
+  //       }
+  //     ]
+  //   }
+  // }
  // var msg = payload
   console.log("payload" , payload)
   callSendAPI(request_body).then(() =>{
-    callSendAPI(request_body1).then(() => {
-      callSendAPI(request_body2)
-    });
+    callSendAPI(request_body1)
   }).catch((error) => {
     console.log(error)
   }); 
@@ -174,9 +172,6 @@ const callSendAPI = async (content) => {
         body:    JSON.stringify(content),
         headers: {"Content-Type": "application/json"},
     })
-   // .then(res => res.json())
-   // .then(json => console.log(json));
-    // const response = await fetch(url);
      const json = await response.json();
      console.log(json);
   } catch (error) {
