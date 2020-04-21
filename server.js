@@ -101,14 +101,20 @@ function handleMessage(sender_psid, received_message) {
   // Check if the message contains text
   if (received_message.text) {    
     io.emit("fromMessenger",received_message.text)
-    // Create the payload for a basic text message
-    response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
+    var response = {
+      "recipient": {
+        "id": "3064114630319157"
+      },
+      "message": {
+        "text":"Please tell me your email, so that we can stay in touch, even in future!"
+      }
     }
+    // Create the payload for a basic text message
+    
   }  
   
   // Sends the response message
-  callSendAPI(sender_psid, response);    
+  callSendAPI(response);    
 }
 
 // Handles messaging_postbacks events
